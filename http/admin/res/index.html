@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Config.Site.Title}} Admin Login</title>
+    <link rel="stylesheet" href="/@/style.css">
+    <link rel="stylesheet" href="/@/custom.css">
+    <link rel="stylesheet" href="/@/admin.css">
+</head>
+<body>
+    <div class="admin login">
+        <form action="/admin/login.sh" method="POST">
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ .CSRFToken }}" />
+            <div class="admin form row">
+                <input
+                        class="admin form input"
+                        type="text"
+                        name="id"
+                        placeholder="admin id"
+                        minlength="3"/>
+            </div>
+            <div class="admin form row">
+                <input
+                        class="admin form input"
+                        type="password"
+                        name="pass"
+                        placeholder="password"
+                        minlength="3"/>
+            </div>
+            <div class="admin form row">
+                <input class="admin form input halfsize" type="submit" value="Login"/>
+                <input class="admin form input halfsize" type="reset" value="Reset"/>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

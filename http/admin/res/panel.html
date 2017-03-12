@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Config.Site.Title}} Admin Panel</title>
+    <link rel="stylesheet" href="/@/style.css">
+    <link rel="stylesheet" href="/@/custom.css">
+    <link rel="stylesheet" href="/@/admin.css">
+</head>
+<body>
+<div class="welcome">
+    Welcome {{.Admin.Id}}<br>
+    <form class="form logout" method="POST" action="/admin/logout.sh">
+        <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ .CSRFToken }}" />
+        <input type="submit" value="Logout" />
+    </form>
+</div>
+<div class="panel boardmgr">
+    <form method="POST" action="/admin/new_board.sh">
+        <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ .CSRFToken }}" />
+        <input type="text" placeholder="shortname" name="shortname"/>
+        <input type="text" placeholder="longname" name="longname"/>
+        <input type="submit" value="Create Board" />
+        <input type="reset" value="Reset" />
+    </form>
+</div>
+<div class="panel remover post">
+    <form method="POST" action="/admin/rem_post.sh">
+        <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ .CSRFToken }}" />
+        <input type="text" placeholder="post id" name="post id"/>
+        <input type="submit" value="Remove Post" />
+        <input type="reset" value="Reset" />
+    </form>
+</div>
+<div class="panel remover thread">
+    <form method="POST" action="/admin/rem_thread.sh">
+        <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ .CSRFToken }}" />
+        <input type="text" placeholder="thread id" name="thread id"/>
+        <input type="submit" value="Remove thread" />
+        <input type="reset" value="Reset" />
+    </form>
+</div>
+</body>
+</html>

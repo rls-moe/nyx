@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Config.Site.Title}} - /{{.Board.ShortName}}/</title>
+    <link rel="stylesheet" href="/@/style.css">
+    <link rel="stylesheet" href="/@/custom.css">
+</head>
+<body>
+<div class="banner logo">
+    <div class="site title"><h1><span class="reflink"><a href="/{{.Board.ShortName}}/board.html">/{{.Board.ShortName}}/</a></span></h1></div>
+    <div class="site description"><h2>{{.Board.LongName}}</h2></div>
+</div>
+{{ $boardlink := .Board.ShortName }}
+<hr />
+<div class="postarea">
+    <form id="postform" action="/{{.Board.ShortName}}/{{.Thread.ID}}/reply.sh" method="POST">
+        <table>
+            <tbody>
+            <tr>
+                <td class="postblock">
+                    TripCode
+                </td>
+                <td>
+                    <input type="text" name="tripcode" size=48 placeholder="Anonymous"/>
+                    <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ .CSRFToken }}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="postblock">
+                    Comment
+                </td>
+                <td>
+                        <textarea
+                                name="text"
+                                placeholder="your comment"
+                                rows="4"
+                                cols="48"
+                                minlength="10"
+                                required
+                        ></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="postblock">
+                    Image File
+                </td>
+                <td>
+                    <input type="file" name="image" />
+                </td>
+            </tr>
+            {{ if ne .Config.Captcha.Mode "disabled" }}
+            <tr>
+                <td class="postblock">
+                    Captcha
+                </td>
+                <td>
+                    <input type="text" name="captcha" size=48 />
+                    <input type="hidden"
+                           value="{{.CaptchaToken}}"/>
+                    <img alt=""
+                         src="{{.CaptchaImage}}" />
+                </td>
+            </tr>
+            {{ end }}
+            <tr>
+                <td class="postblock">
+
+                </td>
+                <td>
+                    <input type="submit" value="Post" />
+                </td>
+            </tr>
+            {{ if .Board.Metadata.rules }}
+            <tr>
+                <td class="postblock">
+                    Rules
+                </td>
+                <td>
+                    {{ .Board.Metadata.rules }}
+                </td>
+            </tr>
+            {{ end }}
+            </tbody>
+        </table>
+    </form>
+</div>
+<div class="postlists">
+    {{with .Thread }}
+    {{ $threadrid := .GetReply.ID }}
+    <label><span class="postertrip">
+        {{ if .GetReply.Metadata.trip }}
+        {{.GetReply.Metadata.trip}}
+        {{ else }}
+        Anonymous
+        {{ end }}
+    </span></label>
+    <span class="reflink"><a href="/{{$boardlink}}/{{.ID}}/thread.html">No.{{.ID}}</a></span>
+    <blockquote><blockquote>
+        {{ renderText .GetReply.Text}}
+    </blockquote></blockquote>
+    {{range .GetReplies}}
+    {{ if ne .ID $threadrid }}
+    <table><tbody><tr><td class="doubledash">&gt;&gt;</td>
+        <td class="reply" id="reply{{.ID}}">
+            <label><span class="postertrip">
+                    {{ if .Metadata.trip }}
+                    {{.Metadata.trip}}
+                    {{ else }}
+                    Anonymous
+                    {{ end }}
+                </span></label>
+            <span class="reflink"><a href="/{{$boardlink}}/{{.Thread}}/thread.html">No.{{.ID}}</a></span>
+            <blockquote><blockquote>
+                {{ renderText .Text}}
+            </blockquote></blockquote>
+        </td>
+    </tr></tbody></table>
+    {{end}}
+    {{end}}
+    <br clear="left" /><hr />
+    {{end}}
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Config.Site.Title}} Boards</title>
+    <link rel="stylesheet" href="/@/style.css">
+    <link rel="stylesheet" href="/@/custom.css">
+</head>
+<body>
+    <div class="banner logo">
+        <div class="site title"><h1>{{.Config.Site.Title}}</h1></div>
+        <div class="site description"><h2>{{.Config.Site.Description}}</h2></div>
+    </div>
+    <div class="boardlist">
+        <div class="boardtitle">
+            <h3>Boards</h3>
+        </div>
+        <div class="boardlist">
+            <ul>
+                {{range .Boards}}
+                    <li>
+                        <a class="boardlink" href="/{{ .ShortName}}/board.html">{{.ShortName}}: {{.LongName}}</a>
+                    </li>
+                {{end}}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+h1 {
+    font-size: 32px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+h3 {
+    font-size: 16px;
+}
+
+div {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+blockquote blockquote { max-width: 80%; word-wrap: break-word; white-space: normal; }
+
+.reply blockquote, blockquote :last-child { max-width: 80%; word-wrap: break-word; white-space: normal; }
