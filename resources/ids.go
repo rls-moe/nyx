@@ -16,3 +16,7 @@ func getID() (int, error) {
 	id, err := fountain.NewID()
 	return int(id), err
 }
+
+func DateFromId(id int) time.Time {
+	return time.Unix(int64(fountain.IDToUnix(id)), 0).UTC()
+}

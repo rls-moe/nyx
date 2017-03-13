@@ -2,10 +2,14 @@
 <div class="postarea">
     {{ if .Thread }}
     <form id="postform"
-          action="/{{.Board.ShortName}}/{{.Thread.ID}}/reply.sh" method="POST">
+          action="/{{.Board.ShortName}}/{{.Thread.ID}}/reply.sh"
+          method="POST"
+          enctype="multipart/form-data">
     {{ else }}
     <form id="postform"
-          action="/{{.Board.ShortName}}/new_thread.sh" method="POST">
+          action="/{{.Board.ShortName}}/new_thread.sh"
+          method="POST"
+          enctype="multipart/form-data">
     {{ end }}
         <table>
             <tbody>
@@ -41,7 +45,7 @@
                                 placeholder="your comment"
                                 rows="4"
                                 cols="48"
-                                minlength="10"
+                                minlength="5"
                                 required
                         ></textarea>
                 </td>
@@ -97,9 +101,7 @@
             Anonymous
         {{ end }}
     </span></label>
-    <span class="reflink">
-        <a href="/{{.Boardlink}}/{{.ThreadID}}/thread.html">No.{{.Reply.ID}}</a>
-    </span>
+    <span class="date">{{dateFromID .Reply.ID | formatDate}}</span>
     {{ if .Session }}
     {{ if eq (.Session.CAttr "mode") "admin" }}
     <form class="delform" action="/mod/del_reply.sh" method="POST">
@@ -126,6 +128,18 @@
     <span>
         {{printf "[SpamScore: %f]" (rateSpam .Reply.Text) }}
     </span>
+    <span class="reflink">
+        <a href="/{{.Boardlink}}/{{.ThreadID}}/thread.html">No.{{.Reply.ID}}</a>
+    </span>
+    {{ if .Reply.Thumbnail }}
+    <br />
+    <a target="_blank" href="/{{.Boardlink}}/{{.ThreadID}}/{{.Reply.ID}}/{{.Reply.ID}}.png">
+    <img
+            src="/{{.Boardlink}}/{{.ThreadID}}/{{.Reply.ID}}/thumb.png"
+            class="thumb"
+    />
+    </a>
+    {{ end }}
     {{ if .Reply.Metadata.deleted }}
     <blockquote><blockquote class="deleted">
         {{ renderText .Reply.Text }}
@@ -152,7 +166,7 @@
         {{ end }}
     {{range .GetReplies}}
     {{ if ne .ID $threadrid }}
-    <table><tbody><tr><td class="doubledash">&gt;&gt;</td>
+    <table class="reply-table"><tbody><tr><td class="doubledash">&gt;&gt;</td>
         <td class="reply" id="reply{{.ID}}">
             {{ with dict "Reply" . "Boardlink" $boardlink "CSRF" $csrf "ThreadID" $threadid "Session" $session }}
             {{ template "thread/reply" . }}

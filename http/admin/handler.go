@@ -106,6 +106,8 @@ func handleDelPost(w http.ResponseWriter, r *http.Request) {
 		}
 		reply.Text = "[deleted]"
 		reply.Metadata["deleted"] = "yes"
+		reply.Image = nil
+		reply.Thumbnail = nil
 		err = resources.UpdateReply(tx, r.Host, board, reply)
 		if err != nil {
 			return err

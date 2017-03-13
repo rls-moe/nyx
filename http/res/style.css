@@ -143,14 +143,13 @@ a:hover {
 
 /* futaba_style.pl */
 
-blockquote blockquote { margin-left: 0em;  }
 form { margin-bottom: 0px }
 form .trap { display:none }
 .postarea { text-align: center }
 .postarea table { margin: 0px auto; text-align: left }
 .thumb { border: none; float: left; margin: 2px 20px }
 .nothumb { float: left; background: #eee; border: 2px dashed #aaa; text-align: center; margin: 2px 20px; padding: 1em 0.5em 1em 0.5em; }
-.reply blockquote, blockquote :last-child { margin-bottom: 0em; }
+
 .reflink a { color: inherit; text-decoration: none }
 .reply .filesize { margin-left: 20px }
 .userdelete { float: right; text-align: center; white-space: nowrap }

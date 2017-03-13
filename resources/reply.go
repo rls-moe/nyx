@@ -10,12 +10,13 @@ import (
 )
 
 type Reply struct {
-	ID       int      `json:"id"`
-	Text     string   `json:"text"`
-	Image    []byte   `json:"image"`
-	Thread   int      `json:"thread"`
-	Board    string   `json:"board"`
-	Metadata Metadata `json:"meta"`
+	ID        int      `json:"id"`
+	Text      string   `json:"text"`
+	Image     []byte   `json:"image"`
+	Thumbnail []byte   `json:"thumb"`
+	Thread    int      `json:"thread"`
+	Board     string   `json:"board"`
+	Metadata  Metadata `json:"meta"`
 }
 
 func NewReply(tx *buntdb.Tx, host, board string, thread *Thread, in *Reply, noId bool) error {

@@ -63,6 +63,12 @@
 			"revisionTime": "2017-03-09T17:28:38Z"
 		},
 		{
+			"checksumSHA1": "r5eQHkttko6kxroDEENXbmXKrSs=",
+			"path": "github.com/nfnt/resize",
+			"revision": "891127d8d1b52734debe1b3c3d7e747502b6c366",
+			"revisionTime": "2016-07-24T20:39:20Z"
+		},
+		{
 			"checksumSHA1": "BvfT3pAC+s5qn5nEDf0N7lxpBNg=",
 			"path": "github.com/pressly/chi",
 			"revision": "57ee7612d4405274628c71d1dc9455a12646f056",

@@ -27,6 +27,10 @@ type Generator struct {
 	now       int64
 }
 
+func (g *Generator) IDToUnix(id int) int {
+	return (id >> counterLen) + int(g.StartTime)
+}
+
 // NewID generates a new, unique snowflake value
 //
 // Up to 8192 snowflakes per second can be requested

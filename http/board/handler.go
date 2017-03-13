@@ -11,6 +11,7 @@ import (
 	"go.rls.moe/nyx/resources"
 	"html/template"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -48,6 +49,10 @@ var (
 		},
 		"rateSpam":    resources.SpamScore,
 		"makeCaptcha": resources.MakeCaptcha,
+		"dateFromID":  resources.DateFromId,
+		"formatDate": func(date time.Time) string {
+			return date.Format("02 Jan 06 15:04:05")
+		},
 	}
 )
 
@@ -78,15 +83,74 @@ func Router(r chi.Router) {
 	r.Get("/:board/board.html", serveBoard)
 	r.Post("/:board/new_thread.sh", handleNewThread)
 	r.Get("/:board/:thread/thread.html", serveThread)
-	r.Get("/:board/:thread/:post/post.html", servePost)
+	r.Get("/:board/:thread/:reply/:unused.png", serveFullImage)
+	r.Get("/:board/:thread/:reply/thumb.png", serveThumb)
 	r.Post("/:board/:thread/reply.sh", handleNewReply)
 	r.Handle("/captcha/:captchaId.png", resources.ServeCaptcha)
 	r.Handle("/captcha/:captchaId.wav", resources.ServeCaptcha)
 	r.Handle("/captcha/download/:captchaId.wav", resources.ServeCaptcha)
 }
 
-func servePost(w http.ResponseWriter, r *http.Request) {
-	return
+func serveThumb(w http.ResponseWriter, r *http.Request) {
+	dat := bytes.NewBuffer([]byte{})
+	db := middle.GetDB(r)
+	err := db.View(func(tx *buntdb.Tx) error {
+		bName := chi.URLParam(r, "board")
+		tid, err := strconv.Atoi(chi.URLParam(r, "thread"))
+		if err != nil {
+			return err
+		}
+		rid, err := strconv.Atoi(chi.URLParam(r, "reply"))
+		if err != nil {
+			return err
+		}
+
+		reply, err := resources.GetReply(tx, r.Host, bName, tid, rid)
+		if err != nil {
+			return err
+		}
+		_, err = dat.Write(reply.Thumbnail)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		errw.ErrorWriter(err, w, r)
+		return
+	}
+	http.ServeContent(w, r, "thumb.png", time.Now(), bytes.NewReader(dat.Bytes()))
+}
+
+func serveFullImage(w http.ResponseWriter, r *http.Request) {
+	dat := bytes.NewBuffer([]byte{})
+	db := middle.GetDB(r)
+	err := db.View(func(tx *buntdb.Tx) error {
+		bName := chi.URLParam(r, "board")
+		tid, err := strconv.Atoi(chi.URLParam(r, "thread"))
+		if err != nil {
+			return err
+		}
+		rid, err := strconv.Atoi(chi.URLParam(r, "reply"))
+		if err != nil {
+			return err
+		}
+
+		reply, err := resources.GetReply(tx, r.Host, bName, tid, rid)
+		if err != nil {
+			return err
+		}
+		_, err = dat.Write(reply.Image)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		errw.ErrorWriter(err, w, r)
+		return
+	}
+	http.ServeContent(w, r, "image.png", time.Now(), bytes.NewReader(dat.Bytes()))
 }
 
 func serveDir(w http.ResponseWriter, r *http.Request) {

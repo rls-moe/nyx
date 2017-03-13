@@ -16,9 +16,17 @@ div {
     padding: 0;
 }
 
-blockquote blockquote { max-width: 80%; word-wrap: break-word; white-space: normal; }
+blockquote blockquote {
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    padding: 2px;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    margin-left: 40px;
+    margin-right: 40px;
+}
 
-.reply blockquote, blockquote :last-child { max-width: 80%; word-wrap: break-word; white-space: normal; }
 
 .delform {
     display: inline;
@@ -31,4 +39,12 @@ blockquote blockquote { max-width: 80%; word-wrap: break-word; white-space: norm
 
 .deleted {
     color: #707070;
+}
+
+.reply-table {
+    display: block;
+}
+
+.reply {
+    display: table;
 }

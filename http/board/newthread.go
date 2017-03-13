@@ -1,17 +1,26 @@
 package board
 
 import (
+	"bytes"
 	"fmt"
+	"github.com/nfnt/resize"
 	"github.com/pressly/chi"
 	"github.com/tidwall/buntdb"
 	"go.rls.moe/nyx/http/errw"
 	"go.rls.moe/nyx/http/middle"
 	"go.rls.moe/nyx/resources"
+	"image"
+	"image/png"
 	"net/http"
 )
 
 func handleNewThread(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
+	if err != nil {
+		errw.ErrorWriter(err, w, r)
+		return
+	}
+	err = r.ParseMultipartForm(10 * 1024 * 1024)
 	if err != nil {
 		errw.ErrorWriter(err, w, r)
 		return
@@ -35,7 +44,7 @@ func handleNewThread(w http.ResponseWriter, r *http.Request) {
 		errw.ErrorWriter(errw.MakeErrorWithTitle("I'm sorry but I can't do that", "These are too many characters"), w, r)
 		return
 	}
-	if len(mainReply.Text) < 10 {
+	if len(mainReply.Text) < 5 {
 		errw.ErrorWriter(errw.MakeErrorWithTitle("I'm sorry but I can't do that", "These are not enough characters"), w, r)
 		return
 	}
@@ -46,6 +55,36 @@ func handleNewThread(w http.ResponseWriter, r *http.Request) {
 				chi.URLParam(r, "board")),
 			http.StatusSeeOther)
 		return
+	}
+
+	{
+		file, _, err := r.FormFile("image")
+		if err != nil && err != http.ErrMissingFile {
+			errw.ErrorWriter(err, w, r)
+			return
+		} else if err != http.ErrMissingFile {
+			img, _, err := image.Decode(file)
+			if err != nil {
+				errw.ErrorWriter(err, w, r)
+				return
+			}
+			thumb := resize.Thumbnail(128, 128, img, resize.Lanczos3)
+			imgBuf := bytes.NewBuffer([]byte{})
+			err = png.Encode(imgBuf, img)
+			if err != nil {
+				errw.ErrorWriter(err, w, r)
+				return
+			}
+			fmt.Println("Image has size ", len(imgBuf.Bytes()))
+			mainReply.Image = imgBuf.Bytes()
+			imgBuf = bytes.NewBuffer([]byte{})
+			err = png.Encode(imgBuf, thumb)
+			if err != nil {
+				errw.ErrorWriter(err, w, r)
+				return
+			}
+			mainReply.Thumbnail = imgBuf.Bytes()
+		}
 	}
 
 	mainReply.Metadata = map[string]string{}

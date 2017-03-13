@@ -16,6 +16,13 @@ func OperateReplyText(unsafe string) template.HTML {
 	return template.HTML(unsafe)
 }
 
+const (
+	passScoreAggressive = 7.1
+	passScoreReactive   = 0.65
+	passScoreLimitMin   = 0.01
+	passScoreLimitMax   = 0.99
+)
+
 var (
 	blacklist = []string{
 		"spam",
@@ -25,6 +32,8 @@ var (
 		"subscription",
 		"penis",
 		"nazi",
+		"beemovie",
+		"bee movie",
 	}
 )
 
@@ -62,7 +71,13 @@ func (b *byteCounter) Write(p []byte) (n int, err error) {
 }
 
 func CaptchaPass(spamScore float64) bool {
-	chance := math.Max(0, math.Min(0.65*math.Atan(7.1*spamScore), 0.99))
+	chance := math.Max(
+		passScoreLimitMin,
+		math.Min(
+			passScoreReactive*math.Atan(
+				passScoreAggressive*spamScore,
+			),
+			passScoreLimitMax))
 	take := rand.Float64()
 	fmt.Printf("Chance: %f, Take %f", chance, take)
 	return take > chance
