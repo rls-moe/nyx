@@ -10,10 +10,10 @@ import (
 )
 
 type Reply struct {
-	ID       int64    `json:"id"`
+	ID       int      `json:"id"`
 	Text     string   `json:"text"`
 	Image    []byte   `json:"image"`
-	Thread   int64    `json:"thread"`
+	Thread   int      `json:"thread"`
 	Board    string   `json:"board"`
 	Metadata Metadata `json:"meta"`
 }
@@ -52,7 +52,33 @@ func NewReply(tx *buntdb.Tx, host, board string, thread *Thread, in *Reply, noId
 	return nil
 }
 
-func GetReply(tx *buntdb.Tx, host, board string, thread, id int64) (*Reply, error) {
+func UpdateReply(tx *buntdb.Tx, host, board string, r *Reply) error {
+	if err := TestBoard(tx, host, board); err != nil {
+		return err
+	}
+	if err := TestThread(tx, host, board, r.Thread); err != nil {
+		return err
+	}
+
+	dat, err := json.Marshal(r)
+	if err != nil {
+		return err
+	}
+
+	_, replaced, err := tx.Set(
+		fmt.Sprintf(replyPath, escapeString(host), escapeString(board), r.Thread, r.ID),
+		string(dat),
+		nil)
+	if err != nil {
+		return err
+	}
+	if !replaced {
+		return fmt.Errorf("Reply %d/%d does not exist", r.Thread, r.ID)
+	}
+	return nil
+}
+
+func GetReply(tx *buntdb.Tx, host, board string, thread, id int) (*Reply, error) {
 	var ret = &Reply{}
 	dat, err := tx.Get(
 		fmt.Sprintf(replyPath, escapeString(host), escapeString(board), thread, id),
@@ -66,7 +92,7 @@ func GetReply(tx *buntdb.Tx, host, board string, thread, id int64) (*Reply, erro
 	return ret, nil
 }
 
-func DelReply(tx *buntdb.Tx, host, board string, thread, id int64) error {
+func DelReply(tx *buntdb.Tx, host, board string, thread, id int) error {
 	if _, err := tx.Delete(
 		fmt.Sprintf(replyPath, escapeString(host), escapeString(board), thread, id),
 	); err != nil {
@@ -75,7 +101,7 @@ func DelReply(tx *buntdb.Tx, host, board string, thread, id int64) error {
 	return nil
 }
 
-func ListReplies(tx *buntdb.Tx, host, board string, thread int64) ([]*Reply, error) {
+func ListReplies(tx *buntdb.Tx, host, board string, thread int) ([]*Reply, error) {
 	var replyList = []*Reply{}
 	var err error
 
@@ -84,7 +110,7 @@ func ListReplies(tx *buntdb.Tx, host, board string, thread int64) ([]*Reply, err
 		return nil, err
 	}
 
-	tx.DescendKeys(
+	tx.AscendKeys(
 		fmt.Sprintf(
 			replySPath,
 			escapeString(host),
@@ -98,9 +124,6 @@ func ListReplies(tx *buntdb.Tx, host, board string, thread int64) ([]*Reply, err
 				return false
 			}
 			replyList = append(replyList, reply)
-			if len(replyList) >= 100 {
-				return false
-			}
 			return true
 		})
 

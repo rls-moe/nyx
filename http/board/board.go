@@ -43,7 +43,7 @@ func serveBoard(w http.ResponseWriter, r *http.Request) {
 		errw.ErrorWriter(err, w, r)
 		return
 	}
-	err = boardTmpl.Execute(dat, ctx)
+	err = tmpls.ExecuteTemplate(dat, "board/board", ctx)
 	if err != nil {
 		errw.ErrorWriter(err, w, r)
 		return

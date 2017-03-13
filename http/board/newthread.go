@@ -17,13 +17,21 @@ func handleNewThread(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !resources.VerifyCaptcha(r) {
+		http.Redirect(w, r,
+			fmt.Sprintf("/%s/board.html?err=wrong_captcha",
+				chi.URLParam(r, "board")),
+			http.StatusSeeOther)
+		return
+	}
+
 	var thread = &resources.Thread{}
 	var mainReply = &resources.Reply{}
 
 	mainReply.Board = chi.URLParam(r, "board")
 	thread.Board = chi.URLParam(r, "board")
 	mainReply.Text = r.FormValue("text")
-	if len(mainReply.Text) > 1000 {
+	if len(mainReply.Text) > 10000 {
 		errw.ErrorWriter(errw.MakeErrorWithTitle("I'm sorry but I can't do that", "These are too many characters"), w, r)
 		return
 	}
@@ -31,6 +39,15 @@ func handleNewThread(w http.ResponseWriter, r *http.Request) {
 		errw.ErrorWriter(errw.MakeErrorWithTitle("I'm sorry but I can't do that", "These are not enough characters"), w, r)
 		return
 	}
+
+	if score, err := resources.SpamScore(mainReply.Text); err != nil || !resources.CaptchaPass(score) {
+		http.Redirect(w, r,
+			fmt.Sprintf("/%s/board.html?err=trollthrottle",
+				chi.URLParam(r, "board")),
+			http.StatusSeeOther)
+		return
+	}
+
 	mainReply.Metadata = map[string]string{}
 	if r.FormValue("tripcode") != "" {
 		mainReply.Metadata["trip"] = resources.CalcTripCode(r.FormValue("tripcode"))

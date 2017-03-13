@@ -31,27 +31,47 @@
         <input type="reset" value="Reset" />
     </form>
 </div>
-<div class="panel remover post">
-    <form method="POST" action="/admin/rem_post.sh">
-        <input
-                type="hidden"
-                name="csrf_token"
-                value="{{ .CSRFToken }}" />
-        <input type="text" placeholder="post id" name="post id"/>
-        <input type="submit" value="Remove Post" />
-        <input type="reset" value="Reset" />
+<div class="postarea">
+    <form id="postform1" action="/admin/new_admin.sh" method="POST">
+        <table>
+            <tbody>
+            <tr>
+                <td class="postblock">
+                    Action
+                </td>
+                <td>
+                    New Administrator
+                    <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ .CSRFToken }}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="postblock">
+                    ID
+                </td>
+                <td>
+                    <input type="text"
+                           minlength="8"
+                           name="id" />
+                </td>
+            </tr>
+            <tr>
+                <td class="postblock">
+                    Password
+                </td>
+                <td>
+                    <input type="password"
+                           minlength="12"
+                           maxlength="255"
+                           name="id" />
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </form>
 </div>
-<div class="panel remover thread">
-    <form method="POST" action="/admin/rem_thread.sh">
-        <input
-                type="hidden"
-                name="csrf_token"
-                value="{{ .CSRFToken }}" />
-        <input type="text" placeholder="thread id" name="thread id"/>
-        <input type="submit" value="Remove thread" />
-        <input type="reset" value="Reset" />
-    </form>
-</div>
+<br clear="left" /><hr />
 </body>
 </html>

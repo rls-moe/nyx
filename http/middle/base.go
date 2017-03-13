@@ -13,6 +13,15 @@ func GetBaseCtx(r *http.Request) map[string]interface{} {
 		"CSRFToken": nosurf.Token(r),
 	}
 
+	if sess := GetSession(r); sess != nil {
+		val["Session"] = sess
+	}
+
+	err := r.URL.Query().Get("err")
+	if err != "" {
+		val["PreviousError"] = err
+	}
+
 	return val
 }
 

@@ -28,7 +28,7 @@ func serveThread(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return err
 		}
-		thread, err := resources.GetThread(tx, r.Host, bName, int64(id))
+		thread, err := resources.GetThread(tx, r.Host, bName, id)
 		if err != nil {
 			return err
 		}
@@ -48,7 +48,7 @@ func serveThread(w http.ResponseWriter, r *http.Request) {
 		errw.ErrorWriter(err, w, r)
 		return
 	}
-	err = threadTmpl.Execute(dat, ctx)
+	err = tmpls.ExecuteTemplate(dat, "board/thread", ctx)
 	if err != nil {
 		errw.ErrorWriter(err, w, r)
 		return

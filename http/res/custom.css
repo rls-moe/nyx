@@ -19,3 +19,16 @@ div {
 blockquote blockquote { max-width: 80%; word-wrap: break-word; white-space: normal; }
 
 .reply blockquote, blockquote :last-child { max-width: 80%; word-wrap: break-word; white-space: normal; }
+
+.delform {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+.delform input {
+    display: inline;
+}
+
+.deleted {
+    color: #707070;
+}

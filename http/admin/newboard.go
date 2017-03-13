@@ -25,6 +25,7 @@ func handleNewBoard(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		errw.ErrorWriter(err, w, r)
+		return
 	}
 	db := middle.GetDB(r)
 
@@ -38,7 +39,7 @@ func handleNewBoard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if board.ShortName == "admin" && board.ShortName == "@" {
+	if board.ShortName == "admin" || board.ShortName == "@" || board.ShortName == "mod"{
 		errw.ErrorWriter(errors.New("No"), w, r)
 	}
 

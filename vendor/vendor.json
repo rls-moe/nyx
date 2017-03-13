@@ -33,6 +33,12 @@
 			"revisionTime": "2015-03-29T02:31:25Z"
 		},
 		{
+			"checksumSHA1": "0GvcY9P9GSq/aJQEoRB173b4Fbw=",
+			"path": "github.com/dchest/captcha",
+			"revision": "9e952142169c3cd6268c6482a3a61c121536aca2",
+			"revisionTime": "2015-07-28T12:50:59Z"
+		},
+		{
 			"checksumSHA1": "6defOlYtxIqheaUEG/cWWouQnIU=",
 			"path": "github.com/hlandau/passlib",
 			"revision": "933f1c3f63ffb0d17de04c3174f875ae683a33cd",

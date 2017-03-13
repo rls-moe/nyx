@@ -12,6 +12,7 @@ var fountain = snowflakes.Generator{
 		0, time.UTC).Unix(),
 }
 
-func getID() (int64, error) {
-	return fountain.NewID()
+func getID() (int, error) {
+	id, err := fountain.NewID()
+	return int(id), err
 }

@@ -8,8 +8,8 @@ import (
 )
 
 type Thread struct {
-	ID         int64    `json:"id"`
-	StartReply int64    `json:"start"`
+	ID         int      `json:"id"`
+	StartReply int      `json:"start"`
 	Board      string   `json:"board"`
 	Metadata   Metadata `json:"-"`
 
@@ -66,7 +66,7 @@ func NewThread(tx *buntdb.Tx, host, board string, in *Thread, in2 *Reply) error 
 	return NewReply(tx, host, board, in, in2, true)
 }
 
-func TestThread(tx *buntdb.Tx, host, board string, id int64) error {
+func TestThread(tx *buntdb.Tx, host, board string, id int) error {
 	err := TestBoard(tx, host, board)
 	if err != nil {
 		return err
@@ -78,7 +78,7 @@ func TestThread(tx *buntdb.Tx, host, board string, id int64) error {
 	return err
 }
 
-func GetThread(tx *buntdb.Tx, host, board string, id int64) (*Thread, error) {
+func GetThread(tx *buntdb.Tx, host, board string, id int) (*Thread, error) {
 	var ret = &Thread{}
 	dat, err := tx.Get(
 		fmt.Sprintf(threadPath, escapeString(host), escapeString(board), id),
@@ -94,7 +94,7 @@ func GetThread(tx *buntdb.Tx, host, board string, id int64) (*Thread, error) {
 	return ret, nil
 }
 
-func DelThread(tx *buntdb.Tx, host, board string, id int64) error {
+func DelThread(tx *buntdb.Tx, host, board string, id int) error {
 	if _, err := tx.Delete(
 		fmt.Sprintf(threadPath, escapeString(host), escapeString(board), id),
 	); err != nil {

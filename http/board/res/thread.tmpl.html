@@ -1,0 +1,169 @@
+{{ define "thread/post" }}
+<div class="postarea">
+    {{ if .Thread }}
+    <form id="postform"
+          action="/{{.Board.ShortName}}/{{.Thread.ID}}/reply.sh" method="POST">
+    {{ else }}
+    <form id="postform"
+          action="/{{.Board.ShortName}}/new_thread.sh" method="POST">
+    {{ end }}
+        <table>
+            <tbody>
+            {{ if .PreviousError }}
+            <tr>
+                <td class="postblock">
+                    Error
+                </td>
+                <td>
+                    {{.PreviousError}}
+                </td>
+            </tr>
+            {{ end }}
+            <tr>
+                <td class="postblock">
+                    TripCode
+                </td>
+                <td>
+                    <input type="text" name="tripcode" size=48 placeholder="Anonymous"/>
+                    <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ .CSRFToken }}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="postblock">
+                    Comment
+                </td>
+                <td>
+                        <textarea
+                                name="text"
+                                placeholder="your comment"
+                                rows="4"
+                                cols="48"
+                                minlength="10"
+                                required
+                        ></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="postblock">
+                    Image File
+                </td>
+                <td>
+                    <input type="file" name="image" />
+                </td>
+            </tr>
+            {{ if ne .Config.Captcha.Mode "disabled" }}
+            <tr>
+                <td class="postblock">
+                    Captcha
+                </td>
+                <td>
+                    {{ $captchaId := makeCaptcha }}
+                    <img id="image" src="/captcha/{{$captchaId}}.png" alt="Captcha Image"/>
+                    <audio id=audio controls style="display:none" src="/captcha/{{$captchaId}}.wav" preload=none>
+                        You browser doesn't support audio.
+                        <a href="/captcha/download/{{$captchaId}}.wav">Download file</a> to play it in the external player.
+                    </audio>
+                    <br>
+                    <input type="text" name="captchaSolution" size=48 />
+                    <input type="hidden"
+                           name="captchaId"
+                           value="{{$captchaId}}"/>
+                </td>
+            </tr>
+            {{ end }}
+            <tr>
+                <td class="postblock">
+
+                </td>
+                <td>
+                    <input type="submit" value="Post" />
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<hr />
+{{ end }}
+
+{{ define "thread/reply" }}
+    <label><span class="postertrip">
+        {{ if .Reply.Metadata.trip }}
+            {{ .Reply.Metadata.trip}}
+        {{ else }}
+            Anonymous
+        {{ end }}
+    </span></label>
+    <span class="reflink">
+        <a href="/{{.Boardlink}}/{{.ThreadID}}/thread.html">No.{{.Reply.ID}}</a>
+    </span>
+    {{ if .Session }}
+    {{ if eq (.Session.CAttr "mode") "admin" }}
+    <form class="delform" action="/mod/del_reply.sh" method="POST">
+        <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ .CSRF }}" />
+        <input
+                type="hidden"
+                name="reply_id"
+                value="{{ .Reply.ID }}" />
+        <input
+                type="hidden"
+                name="thread_id"
+                value="{{ .ThreadID }}" />
+        <input
+                type="hidden"
+                name="board"
+                value="{{ .Boardlink }}" />
+        <input type="submit" value="delete" />
+    </form>
+    {{ end }}
+    {{ end }}
+    <span>
+        {{printf "[SpamScore: %f]" (rateSpam .Reply.Text) }}
+    </span>
+    {{ if .Reply.Metadata.deleted }}
+    <blockquote><blockquote class="deleted">
+        {{ renderText .Reply.Text }}
+    </blockquote></blockquote>
+    {{ else }}
+    <blockquote><blockquote>
+        {{ renderText .Reply.Text}}
+    </blockquote></blockquote>
+    {{ end }}
+{{ end }}
+
+{{ define "thread/main" }}
+<div class="postlists">
+    {{ $boardlink := .Board.ShortName }}
+    {{ $threadrid := .Thread.GetReply.ID }}
+    {{ $threadid := .Thread.ID }}
+    {{ $csrf := .CSRFToken }}
+    {{ $session := .Session }}
+    {{ with .Thread }}
+        {{ with .GetReply }}
+        {{ with dict "Reply" . "Boardlink" $boardlink "CSRF" $csrf "ThreadID" $threadid "Session" $session }}
+            {{ template "thread/reply" . }}
+        {{ end }}
+        {{ end }}
+    {{range .GetReplies}}
+    {{ if ne .ID $threadrid }}
+    <table><tbody><tr><td class="doubledash">&gt;&gt;</td>
+        <td class="reply" id="reply{{.ID}}">
+            {{ with dict "Reply" . "Boardlink" $boardlink "CSRF" $csrf "ThreadID" $threadid "Session" $session }}
+            {{ template "thread/reply" . }}
+            {{ end }}
+        </td>
+    </tr></tbody></table>
+    {{end}}
+    {{end}}
+    {{end}}
+    <br clear="left" /><hr />
+</div>
+{{ end }}
+
+{{ template "thread/main" . }}

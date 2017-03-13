@@ -40,7 +40,8 @@ func Start(config *config.Config) {
 		r.Use(mw)
 	}
 
-	r.Route("/admin/", admin.Router)
+	r.Route("/admin/", admin.AdminRouter)
+	r.Route("/mod/", admin.ModRouter)
 	{
 		box := riceConf.MustFindBox("http/res")
 		atFileServer := http.StripPrefix("/@/", http.FileServer(box.HTTPBox()))

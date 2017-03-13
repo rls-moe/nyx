@@ -38,6 +38,28 @@ func TestBoard(tx *buntdb.Tx, hostname, shortname string) (error) {
 	return err
 }
 
+func UpdateBoard(tx *buntdb.Tx, hostname string, b *Board) error {
+	if err := TestBoard(tx, hostname, b.ShortName); err != nil {
+		return err
+	}
+
+	dat, err := json.Marshal(b)
+	if err != nil {
+		return err
+	}
+	_, replaced, err := tx.Set(
+		fmt.Sprintf(boardPath, escapeString(hostname), escapeString(b.ShortName)),
+		string(dat),
+		nil)
+	if err != nil {
+		return err
+	}
+	if !replaced {
+		return errors.New("Board " + escapeString(b.ShortName) + " does not exist")
+	}
+	return nil
+}
+
 func GetBoard(tx *buntdb.Tx, hostname, shortname string) (*Board, error) {
 	var ret = &Board{}
 	dat, err := tx.Get(
