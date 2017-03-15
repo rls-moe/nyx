@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/tidwall/buntdb"
+	"regexp"
 	"strings"
 )
 
@@ -18,6 +19,16 @@ const (
 	modPassPath   = "/jack/%s/pass/mod/%s/mod-data"
 	adminPassPath = "/jack/./pass/admin/%s/admin-data"
 )
+
+func GetHostnameFromKey(key string) (string, error) {
+	regex := regexp.MustCompile(`^/jack/(.+)/(board|pass)`)
+	res := regex.FindStringSubmatch(key)
+	if len(res) != 3 {
+		fmt.Printf("Found %d keys: %s", len(res), res)
+		return "", errors.New("Could not find host in key")
+	}
+	return unescapeString(res[1]), nil
+}
 
 func InitialSetup(db *buntdb.DB) error {
 	return db.Update(func(tx *buntdb.Tx) error {
@@ -110,5 +121,19 @@ func escapeString(in string) string {
 	in = strings.Replace(in, ">>", ".quote.", -1)
 	in = strings.Replace(in, ">", ".arrow-left.", -1)
 	in = strings.Replace(in, "<", ".arrow-right.", -1)
+	return in
+}
+
+func unescapeString(in string) string {
+	in = strings.Replace(in, ".arrow-right.", "<", -1)
+	in = strings.Replace(in, ".arrow-left.", ">", -1)
+	in = strings.Replace(in, ".quote.", ">>", -1)
+	in = strings.Replace(in, ".at.", "@", -1)
+	in = strings.Replace(in, ".slash.", "/", -1)
+	in = strings.Replace(in, ".ask.", "?", -1)
+	in = strings.Replace(in, ".star.", "*", -1)
+	in = strings.Replace(in, ".backslash.", "\\", -1)
+	in = strings.Replace(in, ".minus.", "-", -1)
+	in = strings.Replace(in, ".dot.", ".", -1)
 	return in
 }

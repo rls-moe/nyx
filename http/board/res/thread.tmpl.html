@@ -78,6 +78,23 @@
                 </td>
             </tr>
             {{ end }}
+            {{ if (isModSession .Session) }}
+            <tr>
+                <td class="postblock">
+                    Mod Post
+                </td>
+                <td>
+                    <label>
+                        <input type="checkbox" name="modpost"/>Mark as Mod Post
+                    </label>
+                    {{ if (isAdminSession .Session) }}
+                    <label>
+                        <input type="checkbox" name="adminpost"/>Mark as Admin Post
+                    </label>
+                    {{ end }}
+                </td>
+            </tr>
+            {{ end }}
             <tr>
                 <td class="postblock">
 
@@ -99,6 +116,12 @@
             {{ .Reply.Metadata.trip}}
         {{ else }}
             Anonymous
+        {{ end }}
+        {{ if .Reply.Metadata.modpost }}
+            (Mod)
+        {{ end }}
+        {{ if .Reply.Metadata.adminpost }}
+            [Admin]
         {{ end }}
     </span></label>
     <span class="date">{{dateFromID .Reply.ID | formatDate}}</span>
@@ -126,7 +149,15 @@
     {{ end }}
     {{ end }}
     <span>
-        {{printf "[SpamScore: %f]" (rateSpam .Reply.Text) }}
+        {{ if not .Reply.Metadata.spamscore }}
+        {{ $score := (rateSpam .Reply.Text) }}
+            {{printf "[SpamScore: %f]" $score }}
+            {{printf "[Captcha: %.3f%%]" (percentFloat (captchaProb $score)) }}
+            {{printf "[OLD]"}}
+        {{ else }}
+            {{ printf "[SpamScore: %s]" .Reply.Metadata.spamscore }}
+            {{ printf "[Captcha: %s %%]" .Reply.Metadata.captchaprob }}
+        {{ end }}
     </span>
     <span class="reflink">
         <a href="/{{.Boardlink}}/{{.ThreadID}}/thread.html">No.{{.Reply.ID}}</a>

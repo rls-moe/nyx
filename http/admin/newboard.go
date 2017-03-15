@@ -11,12 +11,7 @@ import (
 
 func handleNewBoard(w http.ResponseWriter, r *http.Request) {
 	sess := middle.GetSession(r)
-	if sess == nil {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("Unauthorized"))
-		return
-	}
-	if sess.CAttr("mode") != "admin" {
+	if !middle.IsAdminSession(sess) {
 		w.WriteHeader(http.StatusUnauthorized)
 		w.Write([]byte("Unauthorized"))
 		return

@@ -2,9 +2,9 @@ package resources
 
 import (
 	"compress/flate"
-	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"math"
 	"math/rand"
 	"strings"
@@ -34,6 +34,7 @@ var (
 		"nazi",
 		"beemovie",
 		"bee movie",
+		"honey",
 	}
 )
 
@@ -56,7 +57,13 @@ func SpamScore(spam string) (float64, error) {
 		blScore += float64(strings.Count(spam, v))
 	}
 
-	score := float64(len(spam)) / float64(counter.p)
+	lines := strings.Count(spam, "\n")
+
+	if lines == 0 {
+		lines = 1
+	}
+
+	score := float64(len(spam)*lines) / float64(counter.p)
 
 	return (score * blScore) / 100, nil
 }
@@ -70,15 +77,19 @@ func (b *byteCounter) Write(p []byte) (n int, err error) {
 	return len(p), nil
 }
 
-func CaptchaPass(spamScore float64) bool {
-	chance := math.Max(
+func CaptchaProb(spamScore float64) float64 {
+	return math.Max(
 		passScoreLimitMin,
 		math.Min(
 			passScoreReactive*math.Atan(
 				passScoreAggressive*spamScore,
 			),
 			passScoreLimitMax))
+}
+
+func CaptchaPass(spamScore float64) bool {
+	chance := CaptchaProb(spamScore)
 	take := rand.Float64()
-	fmt.Printf("Chance: %f, Take %f", chance, take)
+	log.Printf("Chance: %f, Take %f\n", chance, take)
 	return take > chance
 }

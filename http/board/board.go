@@ -18,18 +18,21 @@ func serveBoard(w http.ResponseWriter, r *http.Request) {
 	ctx := middle.GetBaseCtx(r)
 	err := db.View(func(tx *buntdb.Tx) error {
 		bName := chi.URLParam(r, "board")
+		log.Println("Getting board")
 		b, err := resources.GetBoard(tx, r.Host, bName)
 		if err != nil {
 			return err
 		}
 		ctx["Board"] = b
 
+		log.Println("Listing Threads...")
 		threads, err := resources.ListThreads(tx, r.Host, bName)
 		if err != nil {
 			return err
 		}
 		log.Println("Number of Thread on board: ", len(threads))
 
+		log.Println("Filling threads")
 		for k := range threads {
 			err := resources.FillReplies(tx, r.Host, threads[k])
 			if err != nil {

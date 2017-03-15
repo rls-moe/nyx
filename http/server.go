@@ -10,6 +10,7 @@ import (
 	"go.rls.moe/nyx/http/board"
 	"go.rls.moe/nyx/http/middle"
 	"net/http"
+	"time"
 )
 
 var riceConf = rice.Config{
@@ -27,6 +28,7 @@ func Start(config *config.Config) {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.CloseNotify)
+	r.Use(middle.LimitSize(config))
 	r.Use(middleware.DefaultCompress)
 
 	r.Use(middle.ConfigCtx(config))
@@ -50,5 +52,13 @@ func Start(config *config.Config) {
 	r.Group(board.Router)
 
 	fmt.Println("Setup Complete, Starting Web Server...")
-	http.ListenAndServe(config.ListenOn, r)
+	srv := &http.Server{
+		ReadTimeout:    30 * time.Second,
+		WriteTimeout:   30 * time.Second,
+		IdleTimeout:    120 * time.Second,
+		Handler:        r,
+		Addr:           config.ListenOn,
+		MaxHeaderBytes: 1 * 1024 * 1024,
+	}
+	srv.ListenAndServe()
 }

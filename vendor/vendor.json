@@ -39,6 +39,12 @@
 			"revisionTime": "2015-07-28T12:50:59Z"
 		},
 		{
+			"checksumSHA1": "rhLUtXvcmouYuBwOq9X/nYKzvNg=",
+			"path": "github.com/dustin/go-humanize",
+			"revision": "259d2a102b871d17f30e3cd9881a642961a1e486",
+			"revisionTime": "2017-02-28T07:34:54Z"
+		},
+		{
 			"checksumSHA1": "6defOlYtxIqheaUEG/cWWouQnIU=",
 			"path": "github.com/hlandau/passlib",
 			"revision": "933f1c3f63ffb0d17de04c3174f875ae683a33cd",

@@ -91,6 +91,21 @@ func GetThread(tx *buntdb.Tx, host, board string, id int) (*Thread, error) {
 	}
 
 	ret.intReply, err = GetReply(tx, host, board, id, ret.StartReply)
+	if err != nil && err == buntdb.ErrNotFound {
+		ret.intReply = &Reply{
+			Board:     ret.Board,
+			Thread:    ret.ID,
+			ID:        -1,
+			Image:     nil,
+			Thumbnail: nil,
+			Metadata: map[string]string{
+				"deleted": "not found",
+			},
+			Text: "[not found]",
+		}
+	} else if err != nil {
+		return nil, err
+	}
 	return ret, nil
 }
 
@@ -132,7 +147,22 @@ func ListThreads(tx *buntdb.Tx, host, board string) ([]*Thread, error) {
 			}
 			thread.intReply, err = GetReply(tx, host, board, thread.ID, thread.StartReply)
 			if err != nil {
-				return false
+				if err == buntdb.ErrNotFound {
+					err = nil
+					thread.intReply = &Reply{
+						Board:     thread.Board,
+						Thread:    thread.ID,
+						ID:        -1,
+						Image:     nil,
+						Thumbnail: nil,
+						Metadata: map[string]string{
+							"deleted": "not found",
+						},
+						Text: "[not found]",
+					}
+				} else {
+					return false
+				}
 			}
 
 			threadList = append(threadList, thread)

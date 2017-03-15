@@ -19,8 +19,19 @@ func (a *AdminPass) HashLogin(pass string) error {
 	return err
 }
 
-func (a *AdminPass) VerifyLogin(pass string) error {
-	var err error
+func (a *AdminPass) VerifyLogin(pass string) (err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			var ok bool
+			err, ok = r.(error)
+			if !ok {
+				err = fmt.Errorf("pkg: %v", r)
+			}
+		}
+	}()
+	if a == nil {
+		return errors.New("no login")
+	}
 	err = passlib.VerifyNoUpgrade(pass, a.Password)
 	return err
 }

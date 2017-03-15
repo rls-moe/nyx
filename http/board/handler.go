@@ -27,9 +27,6 @@ var box = riceConf.MustFindBox("http/board/res/")
 
 var (
 	tmpls = template.New("base")
-	//dirTmpl    = template.New("board/dir")
-	//boardTmpl  = template.New("board/board")
-	//threadTmpl = template.New("board/thread")
 
 	hdlFMap = template.FuncMap{
 		"renderText": resources.OperateReplyText,
@@ -53,6 +50,10 @@ var (
 		"formatDate": func(date time.Time) string {
 			return date.Format("02 Jan 06 15:04:05")
 		},
+		"isAdminSession": middle.IsAdminSession,
+		"isModSession":   middle.IsModSession,
+		"captchaProb":    resources.CaptchaProb,
+		"percentFloat":   func(in float64) float64 { return in * 100 },
 	}
 )
 
@@ -93,6 +94,7 @@ func Router(r chi.Router) {
 
 func serveThumb(w http.ResponseWriter, r *http.Request) {
 	dat := bytes.NewBuffer([]byte{})
+	var date time.Time
 	db := middle.GetDB(r)
 	err := db.View(func(tx *buntdb.Tx) error {
 		bName := chi.URLParam(r, "board")
@@ -113,17 +115,19 @@ func serveThumb(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return err
 		}
+		date = resources.DateFromId(reply.ID)
 		return nil
 	})
 	if err != nil {
 		errw.ErrorWriter(err, w, r)
 		return
 	}
-	http.ServeContent(w, r, "thumb.png", time.Now(), bytes.NewReader(dat.Bytes()))
+	http.ServeContent(w, r, "thumb.png", date, bytes.NewReader(dat.Bytes()))
 }
 
 func serveFullImage(w http.ResponseWriter, r *http.Request) {
 	dat := bytes.NewBuffer([]byte{})
+	var date time.Time
 	db := middle.GetDB(r)
 	err := db.View(func(tx *buntdb.Tx) error {
 		bName := chi.URLParam(r, "board")
@@ -144,13 +148,14 @@ func serveFullImage(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return err
 		}
+		date = resources.DateFromId(reply.ID)
 		return nil
 	})
 	if err != nil {
 		errw.ErrorWriter(err, w, r)
 		return
 	}
-	http.ServeContent(w, r, "image.png", time.Now(), bytes.NewReader(dat.Bytes()))
+	http.ServeContent(w, r, "image.png", date, bytes.NewReader(dat.Bytes()))
 }
 
 func serveDir(w http.ResponseWriter, r *http.Request) {
