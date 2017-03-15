@@ -14,7 +14,7 @@ var (
 )
 
 func LoadTemplates() error {
-	box, err := rice.FindBox("res/")
+	box, err := rice.FindBox("errw_res/")
 	if err != nil {
 		return err
 	}

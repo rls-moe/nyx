@@ -19,7 +19,7 @@ var (
 
 func LoadTemplates() error {
 	var err error
-	box, err := rice.FindBox("res/")
+	box, err := rice.FindBox("admin_res/")
 	if err != nil {
 		panic(err)
 	}
