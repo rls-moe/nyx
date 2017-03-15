@@ -103,6 +103,16 @@
                     <input type="submit" value="Post" />
                 </td>
             </tr>
+            {{ if .Board.Metadata.rules }}
+            <tr>
+                <td class="postblock">
+                    Rules
+                </td>
+                <td class="rules">
+                    {{ renderText .Board.Metadata.rules }}
+                </td>
+            </tr>
+            {{ end }}
             </tbody>
         </table>
     </form>

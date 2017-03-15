@@ -24,7 +24,9 @@ func handleNewBoard(w http.ResponseWriter, r *http.Request) {
 	}
 	db := middle.GetDB(r)
 
-	var board = &resources.Board{}
+	var board = &resources.Board{
+		Metadata: map[string]string{},
+	}
 
 	board.ShortName = r.FormValue("shortname")
 	board.LongName = r.FormValue("longname")
@@ -34,7 +36,7 @@ func handleNewBoard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if board.ShortName == "admin" || board.ShortName == "@" || board.ShortName == "mod"{
+	if board.ShortName == "admin" || board.ShortName == "@" || board.ShortName == "mod" {
 		errw.ErrorWriter(errors.New("No"), w, r)
 	}
 

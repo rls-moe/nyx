@@ -34,6 +34,7 @@ func handleNewThread(w http.ResponseWriter, r *http.Request) {
 	var mainReply = &resources.Reply{}
 
 	thread.Board = chi.URLParam(r, "board")
+	thread.Metadata = map[string]string{}
 
 	err = parseReply(r, mainReply)
 	if err == trollThrottle {

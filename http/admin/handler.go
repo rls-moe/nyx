@@ -56,6 +56,7 @@ func AdminRouter(r chi.Router) {
 	r.Post("/new_admin.sh", handleNewAdmin)
 	r.Post("/del_admin.sh", handleDelAdmin)
 	r.Get("/status.sh", serveStatus)
+	r.Post("/set_rules.sh", handleSetRules)
 }
 
 // Router sets up moderation functions

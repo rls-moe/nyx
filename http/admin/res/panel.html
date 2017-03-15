@@ -21,7 +21,7 @@
 </div>
 <br clear="left" /><hr />
 <div class="postarea">
-    <form id="postform1" action="/admin/new_board.sh" method="POST">
+    <form action="/admin/new_board.sh" method="POST">
         <table>
             <tbody>
             <tr>
@@ -65,7 +65,7 @@
 </div>
 <br clear="left" /><hr />
 <div class="postarea">
-    <form id="postform2" action="/admin/new_admin.sh" method="POST">
+    <form action="/admin/new_admin.sh" method="POST">
         <table>
             <tbody>
             <tr>
@@ -117,7 +117,7 @@
 </div>
 <br clear="left" /><hr />
 <div class="postarea">
-    <form id="postform3" action="/admin/del_admin.sh" method="POST">
+    <form action="/admin/del_admin.sh" method="POST">
         <table>
             <tbody>
             <tr>
@@ -157,7 +157,7 @@
 </div>
 <br clear="left" /><hr />
 <div class="postarea">
-    <form id="postform4" action="/admin/cleanup.sh" method="POST">
+    <form action="/admin/cleanup.sh" method="POST">
         <table>
             <tbody>
             <tr>
@@ -176,6 +176,58 @@
                 <td class="postblock"></td>
                 <td>
                     <input type="submit" value="Start Cleanup" />
+                    <input type="reset" value="Reset" />
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<br clear="left" /><hr />
+<div class="postarea">
+    <form action="/admin/set_rules.sh" method="POST">
+        <table>
+            <tbody>
+            <tr>
+                <td class="postblock">
+                    Action
+                </td>
+                <td>
+                    Set Board Rules
+                    <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ .CSRFToken }}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="postblock">
+                    Board Name (Short)
+                </td>
+                <td>
+                    <input type="text"
+                           name="shortname"
+                           required />
+                </td>
+            </tr>
+            <tr>
+                <td class="postblock">
+                    Rules
+                </td>
+                <td>
+                    <textarea
+                            rows="4"
+                            cols="48"
+                            minlength="5"
+                            name="rules"
+                            required>
+                    </textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="postblock"></td>
+                <td>
+                    <input type="submit" value="Set Rules" />
                     <input type="reset" value="Reset" />
                 </td>
             </tr>
