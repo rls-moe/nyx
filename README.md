@@ -76,3 +76,9 @@ The following is a list of options available (and supported);
 * `captcha` - Captcha Mode, currently only `internal` is supported
 
 The config accepts other options but these may not be supported.
+
+## Infrequently Asked Questions
+
+* **Where is the demo?**
+
+* Hosting demos is hard. However, Nyx runs perfectly well on it's default settings, just launch the binary and open your browser on `localhost:8080`. Nyx won't persist any changes to disk unless you configure it to. I'll probably add a demo at some point tho (when I have working CI or something)
