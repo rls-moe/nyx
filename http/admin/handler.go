@@ -11,24 +11,18 @@ import (
 	"time"
 )
 
-var riceConf = rice.Config{
-	LocateOrder: []rice.LocateMethod{
-		rice.LocateWorkingDirectory,
-		rice.LocateEmbedded,
-		rice.LocateAppended,
-	},
-}
-
-var box = riceConf.MustFindBox("http/admin/res/")
-
 var (
 	panelTmpl  = template.New("admin/panel")
 	loginTmpl  = template.New("admin/login")
 	statusTmpl = template.New("admin/status")
 )
 
-func init() {
+func LoadTemplates() error {
 	var err error
+	box, err := rice.FindBox("res/")
+	if err != nil {
+		panic(err)
+	}
 	panelTmpl, err = panelTmpl.Parse(box.MustString("panel.html"))
 	if err != nil {
 		panic(err)

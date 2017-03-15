@@ -2,6 +2,7 @@ package config
 
 import (
 	"flag"
+	"github.com/GeertJohan/go.rice"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
@@ -25,6 +26,8 @@ type Config struct {
 
 const (
 	CaptchaRecaptcha = "recaptcha"
+	CaptchaInternal  = "internal"
+	CaptchaHybrid    = "hybrid"
 	CaptchaDisabled  = "disabled"
 )
 

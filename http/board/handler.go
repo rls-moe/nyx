@@ -15,16 +15,6 @@ import (
 	"time"
 )
 
-var riceConf = rice.Config{
-	LocateOrder: []rice.LocateMethod{
-		rice.LocateWorkingDirectory,
-		rice.LocateEmbedded,
-		rice.LocateAppended,
-	},
-}
-
-var box = riceConf.MustFindBox("http/board/res/")
-
 var (
 	tmpls = template.New("base")
 
@@ -57,24 +47,27 @@ var (
 	}
 )
 
-func init() {
-	var err error
+func LoadTemplates() error {
+	box, err := rice.FindBox("res/")
+	if err != nil {
+		return err
+	}
 	tmpls = tmpls.Funcs(hdlFMap)
 	tmpls, err = tmpls.New("thread/postlists").Parse(box.MustString("thread.tmpl.html"))
 	if err != nil {
-		panic(err)
+		return err
 	}
 	_, err = tmpls.New("board/dir").Parse(box.MustString("dir.html"))
 	if err != nil {
-		panic(err)
+		return err
 	}
 	_, err = tmpls.New("board/board").Parse(box.MustString("board.html"))
 	if err != nil {
-		panic(err)
+		return err
 	}
 	_, err = tmpls.New("board/thread").Parse(box.MustString("thread.html"))
 	if err != nil {
-		panic(err)
+		return err
 	}
 }
 

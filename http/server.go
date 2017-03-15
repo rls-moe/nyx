@@ -8,6 +8,7 @@ import (
 	"go.rls.moe/nyx/config"
 	"go.rls.moe/nyx/http/admin"
 	"go.rls.moe/nyx/http/board"
+	"go.rls.moe/nyx/http/errw"
 	"go.rls.moe/nyx/http/middle"
 	"net/http"
 	"time"
@@ -21,7 +22,20 @@ var riceConf = rice.Config{
 	},
 }
 
-func Start(config *config.Config) {
+func Start(config *config.Config) error {
+	err := admin.LoadTemplates()
+	if err != nil {
+		return err
+	}
+	err = board.LoadTemplates()
+	if err != nil {
+		return err
+	}
+	err = errw.LoadTemplates()
+	if err != nil {
+		return err
+	}
+
 	r := chi.NewRouter()
 
 	fmt.Println("Setting up Router")
@@ -37,7 +51,7 @@ func Start(config *config.Config) {
 	{
 		mw, err := middle.Database(config)
 		if err != nil {
-			panic(err)
+			return err
 		}
 		r.Use(mw)
 	}
@@ -45,7 +59,10 @@ func Start(config *config.Config) {
 	r.Route("/admin/", admin.AdminRouter)
 	r.Route("/mod/", admin.ModRouter)
 	{
-		box := riceConf.MustFindBox("http/res")
+		box, err := rice.FindBox("res/")
+		if err != nil {
+			return err
+		}
 		atFileServer := http.StripPrefix("/@/", http.FileServer(box.HTTPBox()))
 		r.Mount("/@/", atFileServer)
 	}

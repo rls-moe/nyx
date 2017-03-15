@@ -9,26 +9,20 @@ import (
 	"net/http"
 )
 
-var riceConf = rice.Config{
-	LocateOrder: []rice.LocateMethod{
-		rice.LocateWorkingDirectory,
-		rice.LocateEmbedded,
-		rice.LocateAppended,
-	},
-}
-
-var box = riceConf.MustFindBox("http/errw/res/")
-
 var (
 	errorTmpl = template.New("errw/error")
 )
 
-func init() {
-	var err error
+func LoadTemplates() error {
+	box, err := rice.FindBox("res/")
+	if err != nil {
+		return err
+	}
 	errorTmpl, err = errorTmpl.Parse(box.MustString("error.html"))
 	if err != nil {
-		panic(err)
+		return err
 	}
+	return nil
 }
 
 type ErrorWithTitle interface {
