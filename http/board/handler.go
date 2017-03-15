@@ -69,6 +69,7 @@ func LoadTemplates() error {
 	if err != nil {
 		return err
 	}
+	return nil
 }
 
 func Router(r chi.Router) {

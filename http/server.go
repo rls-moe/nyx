@@ -77,5 +77,5 @@ func Start(config *config.Config) error {
 		Addr:           config.ListenOn,
 		MaxHeaderBytes: 1 * 1024 * 1024,
 	}
-	srv.ListenAndServe()
+	return srv.ListenAndServe()
 }

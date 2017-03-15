@@ -35,6 +35,7 @@ func LoadTemplates() error {
 	if err != nil {
 		panic(err)
 	}
+	return nil
 }
 
 // Router sets up the Administration Panel

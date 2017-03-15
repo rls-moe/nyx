@@ -1,18 +1,28 @@
 package main
 
 import (
-	"fmt"
 	"go.rls.moe/nyx/config"
 	"go.rls.moe/nyx/http"
+	"log"
+	"os"
+	"time"
 )
 
 func main() {
 	c, err := config.Load()
 	if err != nil {
-		fmt.Printf("Could not read configuration: %s\n", err)
+		log.Printf("Could not read configuration: %s\n", err)
 		return
 	}
 
-	fmt.Println("Starting Server")
-	http.Start(c)
+	log.Println("Starting Server")
+	if err := http.Start(c); err != nil {
+		log.Printf("Could not start server or server crashed: %s\n", err)
+		log.Printf("Waiting 10 seconds before dying...")
+		time.Sleep(10 * time.Second)
+		log.Printf("Exiting")
+		os.Exit(1)
+		return
+	}
+	os.Exit(0)
 }
