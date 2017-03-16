@@ -14,14 +14,6 @@ import (
 	"time"
 )
 
-var riceConf = rice.Config{
-	LocateOrder: []rice.LocateMethod{
-		rice.LocateWorkingDirectory,
-		rice.LocateEmbedded,
-		rice.LocateAppended,
-	},
-}
-
 func Start(config *config.Config) error {
 	err := admin.LoadTemplates()
 	if err != nil {
@@ -35,6 +27,7 @@ func Start(config *config.Config) error {
 	if err != nil {
 		return err
 	}
+	middle.SetupSessionManager(config)
 
 	r := chi.NewRouter()
 

@@ -2,12 +2,16 @@ package middle
 
 import (
 	"github.com/icza/session"
+	"go.rls.moe/nyx/config"
 	"net/http"
 )
 
-func init() {
+func SetupSessionManager(c *config.Config) {
 	session.Global.Close()
-	session.Global = session.NewCookieManager(session.NewInMemStore())
+	session.Global = session.NewCookieManagerOptions(session.NewInMemStore(),
+		&session.CookieMngrOptions{
+			AllowHTTP: c.DisableSecurity,
+		})
 }
 
 func GetSession(r *http.Request) session.Session {
