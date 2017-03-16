@@ -63,6 +63,8 @@ func SpamScore(spam string) (float64, error) {
 		lines = 1
 	}
 
+	lines = lines / 2
+
 	score := float64(len(spam)*lines) / float64(counter.p)
 
 	return (score * blScore) / 100, nil
