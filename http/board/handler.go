@@ -75,8 +75,10 @@ func LoadTemplates() error {
 func Router(r chi.Router) {
 	r.Get("/", serveDir)
 	r.Get("/dir.html", serveDir)
+	r.Get("/:board/", serveBoard)
 	r.Get("/:board/board.html", serveBoard)
 	r.Post("/:board/new_thread.sh", handleNewThread)
+	r.Get("/:board/:thread/", serveThread)
 	r.Get("/:board/:thread/thread.html", serveThread)
 	r.Get("/:board/:thread/:reply/:unused.png", serveFullImage)
 	r.Get("/:board/:thread/:reply/thumb.png", serveThumb)

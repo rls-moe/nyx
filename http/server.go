@@ -35,6 +35,8 @@ func Start(config *config.Config) error {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.CloseNotify)
+	r.Use(middleware.ThrottleBacklog(1000, 6000, 10*time.Second))
+	r.Use(middleware.Heartbeat("/ping"))
 	r.Use(middle.LimitSize(config))
 	r.Use(middleware.DefaultCompress)
 

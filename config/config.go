@@ -60,7 +60,7 @@ func Load() (*Config, error) {
 		HostnameWhiteList: []string{},
 		ListenOn:          ":8080",
 		MasterSecret:      "changeme",
-		DisableSecurity:   false,
+		DisableSecurity:   true,
 		Captcha: CaptchaConfig{
 			Mode: CaptchaDisabled,
 		},
