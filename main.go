@@ -6,9 +6,11 @@ import (
 	"log"
 	"os"
 	"time"
+	"flag"
 )
 
 func main() {
+	flag.Parse()
 	c, err := config.Load()
 	if err != nil {
 		log.Printf("Could not read configuration: %s\n", err)
