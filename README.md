@@ -95,9 +95,22 @@ The config accepts other options but these may not be supported.
 
 * One, there isn't much software out there for this, Wakaba and similar software runs mostly on perl and not on the shared hosting service I use. Nyx is designed to run everywhere without dependencies and without configuration. Secondly, I wanted to see if I could make an imageboard over a weekend, which I succeeded in doing (as you can see).
 
+* **How can I migrate/convert/upgrade the database?**
+
+* The database doesn't migrate old entries, I think that for this application it's more important that new threads and replies work, old data will simply be parse with fallbacks and phased out over time. Currently there is also no way to export or migrate the database, even just between hostnames.
+
 ## Roadmap
 
 * Moderation needs to be worked on, currently only global administrators work
 * Video Files might be implemented, though they will most likely require some extra work on the database side, as streaming video from JSON encoded entries will be anything but efficient. The first step would be to enable Nyx to stream content without loading it in memory.
 * MSGPACK encoding instead of JSON
 * More efficient KV usage, images and thumbnails should be moved into seperate entries so that decoding thread and reply data is less costly.
+* Implement Host-Whitelisting more efficiently
+* Manual Hostname Whitelisting (only enable admin panels globally)
+* Database Tool for the following functions:
+    * Online & Offline Management
+    * Manage Administrators and Moderators
+    * Manage Hostnames
+    * Manage Boards, Threads and Replies
+    * Export / Dump Database
+    * Import / Upgrade Database
