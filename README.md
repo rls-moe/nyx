@@ -77,8 +77,27 @@ The following is a list of options available (and supported);
 
 The config accepts other options but these may not be supported.
 
-## Infrequently Asked Questions
+## Asked Questions
 
 * **Where is the demo?**
 
-* Hosting demos is hard. However, Nyx runs perfectly well on it's default settings, just launch the binary and open your browser on `localhost:8080`. Nyx won't persist any changes to disk unless you configure it to. I'll probably add a demo at some point tho (when I have working CI or something)
+* Hosting demos is hard. And in Nyx' case it requires lots of maintenance to moderate a demo page where people can anonymously post content.
+
+* **Where and how is data stored?**
+
+* Nyx uses a KV-Stored called BuntDB. It features in-memory storage and JSON-indexing, Nyx currently only takes advantage of the in-memory storage however. It enables Nyx to operate in "demo mode", leaving no trace on a computer if it's not explicitly configured. Inside the KV Store all data is encoded with JSON.
+
+* **Why no javascript?**
+
+* The lack of Javascript makes Nyx a simple webservice. No public API or complicated authentication. Just Vanilla Go Templates and clean endpoints. I also suck at JS so that helped.
+
+* **Why make an image board?**
+
+* One, there isn't much software out there for this, Wakaba and similar software runs mostly on perl and not on the shared hosting service I use. Nyx is designed to run everywhere without dependencies and without configuration. Secondly, I wanted to see if I could make an imageboard over a weekend, which I succeeded in doing (as you can see).
+
+## Roadmap
+
+* Moderation needs to be worked on, currently only global administrators work
+* Video Files might be implemented, though they will most likely require some extra work on the database side, as streaming video from JSON encoded entries will be anything but efficient. The first step would be to enable Nyx to stream content without loading it in memory.
+* MSGPACK encoding instead of JSON
+* More efficient KV usage, images and thumbnails should be moved into seperate entries so that decoding thread and reply data is less costly.
