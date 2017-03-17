@@ -101,7 +101,7 @@ The config accepts other options but these may not be supported.
 
 * The database doesn't migrate old entries, I think that for this application it's more important that new threads and replies work, old data will simply be parse with fallbacks and phased out over time. Currently there is also no way to export or migrate the database, even just between hostnames.
 
-## Roadmap
+## ToDo
 
 * Moderation needs to be worked on, currently only global administrators work
 * Video Files might be implemented, though they will most likely require some extra work on the database side, as streaming video from JSON encoded entries will be anything but efficient. The first step would be to enable Nyx to stream content without loading it in memory.
