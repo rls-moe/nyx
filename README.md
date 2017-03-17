@@ -2,6 +2,8 @@
 
 A simple, dependency-free image board.
 
+![screenshot](/screenshot.png)
+
 ## Requirements
 
 * HTTPS Capable Host
