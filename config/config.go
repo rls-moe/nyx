@@ -42,8 +42,10 @@ type SiteConfig struct {
 }
 
 type DBConfig struct {
-	File     string `yaml:"file"`
-	ReadOnly bool   `yaml:"read_only"`
+	File              string `yaml:"file"`
+	ReadOnly          bool   `yaml:"read_only"`
+	AdminSocketEnable bool   `yaml:"enable_admin_socket"`
+	AdminSocketPath   string `yaml:"admin_socket"`
 }
 
 func Load() (*Config, error) {
@@ -54,8 +56,10 @@ func Load() (*Config, error) {
 			Description:  "NyxChan Default Configuration",
 		},
 		DB: DBConfig{
-			File:     ":memory:",
-			ReadOnly: false,
+			File:              ":memory:",
+			ReadOnly:          false,
+			AdminSocketEnable: false,
+			AdminSocketPath:   "./nyx.sock",
 		},
 		HostnameWhiteList: []string{},
 		ListenOn:          ":8080",
