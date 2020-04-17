@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/hlandau/passlib"
+	"gopkg.in/hlandau/passlib.v1"
 	"github.com/tidwall/buntdb"
 )
 
