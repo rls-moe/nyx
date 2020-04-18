@@ -1,0 +1,75 @@
+# github.com/GeertJohan/go.rice v0.0.0-20170123135425-4bbccbfa39e7
+## explicit
+github.com/GeertJohan/go.rice
+github.com/GeertJohan/go.rice/embedded
+# github.com/daaku/go.zipexe v0.0.0-20150329023125-a5fe2436ffcb
+## explicit
+github.com/daaku/go.zipexe
+# github.com/dchest/captcha v0.0.0-20150728125059-9e952142169c
+## explicit
+github.com/dchest/captcha
+# github.com/dustin/go-humanize v0.0.0-20170228161531-259d2a102b87
+## explicit
+github.com/dustin/go-humanize
+# github.com/hlandau/passlib v1.0.9
+## explicit
+# github.com/icza/session v0.0.0-20170217095304-81bce6267720
+## explicit
+github.com/icza/session
+# github.com/justinas/nosurf v0.0.0-20161004085251-8e1568277264
+## explicit
+github.com/justinas/nosurf
+# github.com/kardianos/osext v0.0.0-20170309185600-9d302b58e975
+## explicit
+github.com/kardianos/osext
+# github.com/nfnt/resize v0.0.0-20160724205520-891127d8d1b5
+## explicit
+github.com/nfnt/resize
+# github.com/pressly/chi v2.0.1-0.20170219131947-57ee7612d440+incompatible
+## explicit
+github.com/pressly/chi
+github.com/pressly/chi/middleware
+# github.com/tidwall/btree v0.0.0-20170113224114-9876f1454cf0
+## explicit
+github.com/tidwall/btree
+# github.com/tidwall/buntdb v0.0.0-20161202163738-74dc10171b75
+## explicit
+github.com/tidwall/buntdb
+# github.com/tidwall/gjson v0.0.0-20170205161042-09d1c5c5bc64
+## explicit
+github.com/tidwall/gjson
+# github.com/tidwall/grect v0.0.0-20161006141115-ba9a043346eb
+## explicit
+github.com/tidwall/grect
+# github.com/tidwall/match v0.0.0-20160830173930-173748da739a
+## explicit
+github.com/tidwall/match
+# github.com/tidwall/rtree v0.0.0-20160903213729-d4a8a3d30d57
+## explicit
+github.com/tidwall/rtree
+# golang.org/x/crypto v0.0.0-20170307004051-728b753d0135
+## explicit
+golang.org/x/crypto/bcrypt
+golang.org/x/crypto/blake2b
+golang.org/x/crypto/blowfish
+golang.org/x/crypto/pbkdf2
+golang.org/x/crypto/scrypt
+# gopkg.in/hlandau/easymetric.v1 v1.0.0
+## explicit
+gopkg.in/hlandau/easymetric.v1/cexp
+# gopkg.in/hlandau/measurable.v1 v1.0.1
+## explicit
+gopkg.in/hlandau/measurable.v1
+# gopkg.in/hlandau/passlib.v1 v1.0.9
+## explicit
+gopkg.in/hlandau/passlib.v1
+gopkg.in/hlandau/passlib.v1/abstract
+gopkg.in/hlandau/passlib.v1/hash/bcrypt
+gopkg.in/hlandau/passlib.v1/hash/bcryptsha256
+gopkg.in/hlandau/passlib.v1/hash/scrypt
+gopkg.in/hlandau/passlib.v1/hash/scrypt/raw
+gopkg.in/hlandau/passlib.v1/hash/sha2crypt
+gopkg.in/hlandau/passlib.v1/hash/sha2crypt/raw
+# gopkg.in/yaml.v2 v2.0.0-20170208141851-a3f3340b5840
+## explicit
+gopkg.in/yaml.v2
