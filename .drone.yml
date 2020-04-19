@@ -1,0 +1,9 @@
+kind: pipeline
+name: nyx
+
+steps:
+- name: build
+  image: golang:1.14
+  commands:
+  - go test
+  - go build
