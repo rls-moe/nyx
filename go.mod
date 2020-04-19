@@ -19,7 +19,7 @@ require (
 	github.com/tidwall/grect v0.0.0-20161006141115-ba9a043346eb // indirect
 	github.com/tidwall/match v0.0.0-20160830173930-173748da739a // indirect
 	github.com/tidwall/rtree v0.0.0-20160903213729-d4a8a3d30d57 // indirect
-	golang.org/x/crypto v0.0.0-20170307004051-728b753d0135
+	golang.org/x/crypto v0.0.0-20200414173820-0848c9571904
 	gopkg.in/hlandau/easymetric.v1 v1.0.0 // indirect
 	gopkg.in/hlandau/measurable.v1 v1.0.1 // indirect
 	gopkg.in/hlandau/passlib.v1 v1.0.9

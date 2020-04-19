@@ -47,13 +47,16 @@ github.com/tidwall/match
 # github.com/tidwall/rtree v0.0.0-20160903213729-d4a8a3d30d57
 ## explicit
 github.com/tidwall/rtree
-# golang.org/x/crypto v0.0.0-20170307004051-728b753d0135
+# golang.org/x/crypto v0.0.0-20200414173820-0848c9571904
 ## explicit
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blake2b
 golang.org/x/crypto/blowfish
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/scrypt
+# golang.org/x/sys v0.0.0-20190412213103-97732733099d
+golang.org/x/sys/cpu
+golang.org/x/sys/unix
 # gopkg.in/hlandau/easymetric.v1 v1.0.0
 ## explicit
 gopkg.in/hlandau/easymetric.v1/cexp
