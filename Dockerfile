@@ -23,14 +23,11 @@ RUN groupadd \
     --shell /bin/bash \
     nyx
 
-ENV USER nyx
-
-CMD [ "/usr/local/bin/nyx" ]
-
 COPY --from=build-env /go/bin/nyx /opt/nyx/nyx
 COPY --from=build-env /go/src/github.com/rls-moe/nyx/config.example.yml /opt/nyx/config.yml
-RUN ln -s \
-    /opt/nyx/nyx \
-    /usr/local/bin/nyx && \
-    chown -R \
+RUN chown -R \
     nyx:nyx /opt/nyx
+
+WORKDIR /opt/nyx
+USER nyx
+CMD [ "/opt/nyx/nyx" ]
