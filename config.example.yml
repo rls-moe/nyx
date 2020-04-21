@@ -1,0 +1,12 @@
+site:
+    title: "NyxChan"
+    description: "NyxChan Default Configuration"
+
+db:
+    file: ":memory:"
+
+mastersecret: "changeme"
+listen_on: ":8080"
+
+captcha:
+    mode: "internal"
