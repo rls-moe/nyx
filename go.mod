@@ -7,7 +7,6 @@ require (
 	github.com/daaku/go.zipexe v0.0.0-20150329023125-a5fe2436ffcb // indirect
 	github.com/dchest/captcha v0.0.0-20150728125059-9e952142169c
 	github.com/dustin/go-humanize v0.0.0-20170228161531-259d2a102b87
-	github.com/hlandau/passlib v1.0.9 // indirect
 	github.com/icza/session v0.0.0-20170217095304-81bce6267720
 	github.com/justinas/nosurf v0.0.0-20161004085251-8e1568277264
 	github.com/kardianos/osext v0.0.0-20170309185600-9d302b58e975 // indirect
@@ -22,6 +21,6 @@ require (
 	golang.org/x/crypto v0.0.0-20200414173820-0848c9571904
 	gopkg.in/hlandau/easymetric.v1 v1.0.0 // indirect
 	gopkg.in/hlandau/measurable.v1 v1.0.1 // indirect
-	gopkg.in/hlandau/passlib.v1 v1.0.9
+	gopkg.in/hlandau/passlib.v1 v1.0.10
 	gopkg.in/yaml.v2 v2.0.0-20170208141851-a3f3340b5840
 )

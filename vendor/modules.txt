@@ -11,8 +11,6 @@ github.com/dchest/captcha
 # github.com/dustin/go-humanize v0.0.0-20170228161531-259d2a102b87
 ## explicit
 github.com/dustin/go-humanize
-# github.com/hlandau/passlib v1.0.9
-## explicit
 # github.com/icza/session v0.0.0-20170217095304-81bce6267720
 ## explicit
 github.com/icza/session
@@ -49,6 +47,7 @@ github.com/tidwall/match
 github.com/tidwall/rtree
 # golang.org/x/crypto v0.0.0-20200414173820-0848c9571904
 ## explicit
+golang.org/x/crypto/argon2
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blake2b
 golang.org/x/crypto/blowfish
@@ -63,12 +62,16 @@ gopkg.in/hlandau/easymetric.v1/cexp
 # gopkg.in/hlandau/measurable.v1 v1.0.1
 ## explicit
 gopkg.in/hlandau/measurable.v1
-# gopkg.in/hlandau/passlib.v1 v1.0.9
+# gopkg.in/hlandau/passlib.v1 v1.0.10
 ## explicit
 gopkg.in/hlandau/passlib.v1
 gopkg.in/hlandau/passlib.v1/abstract
+gopkg.in/hlandau/passlib.v1/hash/argon2
+gopkg.in/hlandau/passlib.v1/hash/argon2/raw
 gopkg.in/hlandau/passlib.v1/hash/bcrypt
 gopkg.in/hlandau/passlib.v1/hash/bcryptsha256
+gopkg.in/hlandau/passlib.v1/hash/pbkdf2
+gopkg.in/hlandau/passlib.v1/hash/pbkdf2/raw
 gopkg.in/hlandau/passlib.v1/hash/scrypt
 gopkg.in/hlandau/passlib.v1/hash/scrypt/raw
 gopkg.in/hlandau/passlib.v1/hash/sha2crypt
