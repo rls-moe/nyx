@@ -2,12 +2,14 @@ package board
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/pressly/chi"
 	"github.com/tidwall/buntdb"
+	"go.rls.moe/nyx/config"
 	"go.rls.moe/nyx/http/errw"
 	"go.rls.moe/nyx/http/middle"
 	"go.rls.moe/nyx/resources"
-	"net/http"
 )
 
 func handleNewThread(w http.ResponseWriter, r *http.Request) {
@@ -22,12 +24,14 @@ func handleNewThread(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !resources.VerifyCaptcha(r) {
-		http.Redirect(w, r,
-			fmt.Sprintf("/%s/board.html?err=wrong_captcha",
-				chi.URLParam(r, "board")),
-			http.StatusSeeOther)
-		return
+	if middle.GetConfig(r).Captcha.Mode != config.CaptchaDisabled {
+		if !resources.VerifyCaptcha(r) {
+			http.Redirect(w, r,
+				fmt.Sprintf("/%s/board.html?err=wrong_captcha",
+					chi.URLParam(r, "board")),
+				http.StatusSeeOther)
+			return
+		}
 	}
 
 	var thread = &resources.Thread{}
