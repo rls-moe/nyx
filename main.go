@@ -17,7 +17,7 @@ func main() {
 		return
 	}
 
-	log.Println("Starting Server")
+	log.Printf("Starting Server at %s\n", c.ListenOn)
 	if err := http.Start(c); err != nil {
 		log.Printf("Could not start server or server crashed: %s\n", err)
 		log.Printf("Waiting 10 seconds before dying...")
