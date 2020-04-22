@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/pressly/chi"
 	"github.com/tidwall/buntdb"
+	"go.rls.moe/nyx/config"
 	"go.rls.moe/nyx/http/errw"
 	"go.rls.moe/nyx/http/middle"
 	"go.rls.moe/nyx/resources"
@@ -24,12 +25,14 @@ func handleNewReply(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !resources.VerifyCaptcha(r) {
-		http.Redirect(w, r,
-			fmt.Sprintf("/%s/%s/thread.html?err=wrong_captcha",
-				chi.URLParam(r, "board"), chi.URLParam(r, "thread")),
-			http.StatusSeeOther)
-		return
+	if middle.GetConfig(r).Captcha.Mode != config.CaptchaDisabled {
+		if !resources.VerifyCaptcha(r) {
+			http.Redirect(w, r,
+				fmt.Sprintf("/%s/%s/thread.html?err=wrong_captcha",
+					chi.URLParam(r, "board"), chi.URLParam(r, "thread")),
+				http.StatusSeeOther)
+			return
+		}
 	}
 
 	var reply = &resources.Reply{}
