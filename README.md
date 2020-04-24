@@ -83,7 +83,7 @@ The config accepts other options but these may not be supported.
 
 * **Where is the demo?**
 
-* Hosting demos is hard. And in Nyx' case it requires lots of maintenance to moderate a demo page where people can anonymously post content.
+* It's available here: https://nyx.demo.bjphoster.com (it resets every 6 hours, it's just to "try and buy" the software, )
 
 * **Where and how is data stored?**
 
@@ -109,6 +109,11 @@ The config accepts other options but these may not be supported.
 * More efficient KV usage, images and thumbnails should be moved into seperate entries so that decoding thread and reply data is less costly.
 * Implement Host-Whitelisting more efficiently
 * Manual Hostname Whitelisting (only enable admin panels globally)
+* Global links (kinda like WordPress: "home URL" to be hosted in a subdirectory path, and "board root URL" to "return home" from inside a board)
+* Admin panel refactoring
+    * Password change, instead of deleting an entry and re-creating with a different password
+    * Board deletion
+    * Modern-ish admin panel restyling
 * Database Tool for the following functions:
     * Online & Offline Management
     * Manage Administrators and Moderators
