@@ -47,5 +47,7 @@ gopkg.in/hlandau/passlib.v1 v1.0.9 h1:VfsIu2uKK6xsr9VHCtJtIgNuZ/RNUrIi67hxl8K/7G
 gopkg.in/hlandau/passlib.v1 v1.0.9/go.mod h1:wxGAv2CtQHlzWY8NJp+p045yl4WHyX7v2T6XbOcmqjM=
 gopkg.in/hlandau/passlib.v1 v1.0.10 h1:q5xh9ZHp907XTjVw8/EqG03//fnlITnIYQmv4Gn7TpE=
 gopkg.in/hlandau/passlib.v1 v1.0.10/go.mod h1:wxGAv2CtQHlzWY8NJp+p045yl4WHyX7v2T6XbOcmqjM=
+gopkg.in/hlandau/passlib.v1 v1.0.11 h1:vKeHwGRdWBD9mm4bJ56GAAdBXpFUYvg/BYYkmphjnmA=
+gopkg.in/hlandau/passlib.v1 v1.0.11/go.mod h1:wxGAv2CtQHlzWY8NJp+p045yl4WHyX7v2T6XbOcmqjM=
 gopkg.in/yaml.v2 v2.0.0-20170208141851-a3f3340b5840 h1:BftvRMCaj0KX6UeD7gnNJv0W8b4HAYTEWes978CoWlY=
 gopkg.in/yaml.v2 v2.0.0-20170208141851-a3f3340b5840/go.mod h1:JAlM8MvJe8wmxCU4Bli9HhUf9+ttbYbLASfIpnQbh74=

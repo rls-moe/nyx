@@ -62,7 +62,7 @@ gopkg.in/hlandau/easymetric.v1/cexp
 # gopkg.in/hlandau/measurable.v1 v1.0.1
 ## explicit
 gopkg.in/hlandau/measurable.v1
-# gopkg.in/hlandau/passlib.v1 v1.0.10
+# gopkg.in/hlandau/passlib.v1 v1.0.11
 ## explicit
 gopkg.in/hlandau/passlib.v1
 gopkg.in/hlandau/passlib.v1/abstract
